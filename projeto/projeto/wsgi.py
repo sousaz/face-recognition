@@ -1,5 +1,5 @@
 """
-WSGI config for face_recognition project.
+WSGI config for projeto project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'face_recognition.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'projeto.settings')
 
 application = get_wsgi_application()

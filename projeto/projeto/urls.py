@@ -1,5 +1,5 @@
 """
-URL configuration for face_recognition project.
+URL configuration for projeto project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -21,5 +21,5 @@ from event_control.views import *
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('admin/', admin.site.urls),
-    path('', teste, name='teste'),
+    path('teste/', teste, name='teste'),
 ]
