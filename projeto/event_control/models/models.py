@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
+import os
 
 # Create your models here.
 class CustomUserManager(BaseUserManager):
@@ -39,8 +40,16 @@ class Student(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     student_id = models.CharField(max_length=10, null=False, blank=False, unique=True)
     course = models.CharField(max_length=255, null=False, blank=False)
-    photo = models.ImageField(upload_to=None)
+    photo = models.ImageField(upload_to='photos')
     user_id = models.OneToOneField(User, models.DO_NOTHING, null=False)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            original = Student.objects.get(pk=self.pk)
+            if original.photo != self.photo and original.photo:
+                if os.path.isfile(original.photo.path):
+                    os.remove(original.photo.path)
+        super().save(*args, **kwargs)
 
 class Teacher(models.Model):
     id = models.AutoField(primary_key=True)
