@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from event_control.views import *
+from event_control.views import views, students
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,7 +24,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('admin/', admin.site.urls),
-    path('teste/', teste, name='teste'),
+    path('teste/', views.teste, name='teste'),
+    path('register/', students.register, name='register_student')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
