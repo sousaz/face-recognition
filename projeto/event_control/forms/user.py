@@ -6,7 +6,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['email', 'password']
 
-    labels = {
-        'email': 'Email*',
-        'password': "Senha*"
-    }
+        labels = {
+            'email': 'Email*',
+            'password': "Senha*"
+        }

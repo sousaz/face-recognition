@@ -8,13 +8,13 @@ class StudentForm(forms.ModelForm):
         model = Student
         fields = ['name', 'student_id', 'course', 'photo']
 
-    widgtes = {
-        'course': forms.Select(choices=Course.objects.all())
-    }
-
-    labels = {
-        'name': 'Nome*',
-        'student_id': 'Matricula*',
-        'course': 'Curso',
-        'photo': 'Uma selfie sua'
-    }
+        labels = {
+            'name': 'Nome*',
+            'student_id': 'Matricula*',
+            'course': 'Curso*',
+            'photo': 'Uma selfie sua*'
+        }
+        
+    course = forms.ModelChoiceField(queryset=Course.objects.all(),
+        label="Curso*"
+    )

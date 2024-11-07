@@ -83,3 +83,6 @@ class Register(models.Model):
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, blank=False)
+
+    def __str__(self) -> str:
+        return self.name

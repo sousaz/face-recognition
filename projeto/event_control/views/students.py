@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from event_control.forms.student import *
 from event_control.forms.user import *
 
