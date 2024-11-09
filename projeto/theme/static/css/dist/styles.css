@@ -806,6 +806,10 @@ select {
   display: grid;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-12 {
   height: 3rem;
 }
@@ -954,10 +958,6 @@ select {
 
 .font-medium {
   font-weight: 500;
-}
-
-.capitalize {
-  text-transform: capitalize;
 }
 
 .leading-5 {
