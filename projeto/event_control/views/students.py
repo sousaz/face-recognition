@@ -1,18 +1,21 @@
 from django.shortcuts import render, HttpResponse, redirect
 from event_control.forms.student import *
 from event_control.forms.user import *
-import cv2
-import threading
-from django.views.decorators import gzip
-from django.http import JsonResponse
-import numpy as np
 import base64
 
-@gzip.gzip_page
+
 def register(request):
-    studentForm = StudentForm()
-    userForm = UserForm()
-    return render(request, 'register_student.html', {'s_form':studentForm, 'u_form': userForm})
+    if request.method == 'GET':
+        studentForm = StudentForm()
+        userForm = UserForm()
+    elif request.method == 'POST':
+        studentForm = StudentForm(request.POST)
+        userForm = UserForm(request.POST)
+        if studentForm.is_valid() and userForm.is_valid():
+            salvou = True
+        else:
+            salvou = False
+    return render(request, 'register_student.html', {'s_form':studentForm, 'u_form': userForm, 'salvou': salvou})
 
 def capture(request):
     if request.method == 'POST':
