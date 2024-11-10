@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import os
+import face_recognition as fr
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class CustomUserManager(BaseUserManager):
@@ -52,6 +54,20 @@ class Student(models.Model):
                 if os.path.isfile(original.photo.path):
                     os.remove(original.photo.path)
         super().save(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        try:
+            img = fr.load_image_file(self.photo)
+            faceloc = fr.face_locations(img)[0]
+        except Exception as e:
+            errors['photo'] = 'Essa foto não ta muito legal tente tirar outra mais adequada'
+        finally:
+            if errors:
+                raise ValidationError(errors)
+
+
 
 class Teacher(models.Model):
     id = models.AutoField(primary_key=True)

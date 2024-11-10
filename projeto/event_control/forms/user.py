@@ -6,6 +6,10 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['email', 'password']
 
+        widgets = {
+            'password': forms.PasswordInput()
+        }
+
         labels = {
             'email': 'Email*',
             'password': "Senha*"

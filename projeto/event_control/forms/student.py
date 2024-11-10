@@ -9,7 +9,7 @@ class StudentForm(forms.ModelForm):
         fields = ['name', 'student_id', 'course', 'photo']
 
         labels = {
-            'name': 'Nome*',
+            'name': 'Nome completo*',
             'student_id': 'Matricula*',
             'course': 'Curso*',
             'photo': 'Uma selfie sua*'
