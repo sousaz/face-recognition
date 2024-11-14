@@ -18,3 +18,8 @@ class StudentForm(forms.ModelForm):
     course = forms.ModelChoiceField(queryset=Course.objects.all(),
         label="Curso*"
     )
+    
+    def __init__(self, *args, **kwargs):
+        super(StudentForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({ 'placeholder': 'Digite seu nome' })
+        self.fields['student_id'].widget.attrs.update({ 'placeholder': 'Digite a sua matricula' })

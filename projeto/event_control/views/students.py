@@ -1,10 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, redirect
 from event_control.forms.student import *
 from event_control.forms.user import *
 import base64
-from django.db import transaction
 
-@transaction.atomic
 def register(request):
     if request.method == 'GET':
         studentForm = StudentForm()
@@ -13,11 +11,19 @@ def register(request):
         studentForm = StudentForm(request.POST, request.FILES)
         userForm = UserForm(request.POST)
         if studentForm.is_valid() and userForm.is_valid():
-            user = userForm.save()
+            user = userForm.save(commit=False)
+            user.set_password(user.password)
+            user.save()
             student = studentForm.save(commit=False)
             student.user_id = user
             student.save()
-    return render(request, 'register_student.html', {'s_form':studentForm, 'u_form': userForm})
+            return redirect('login')
+    context = {
+        's_form':studentForm,
+        'u_form': userForm,
+        'title': 'Cadastro'
+    }
+    return render(request, 'register_student.html', context)
 
 def capture(request):
     if request.method == 'POST':
