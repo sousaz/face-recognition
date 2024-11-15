@@ -4,13 +4,13 @@
 {% block body %}
 <!-- page -->
 <main
-  class="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white"
+  class="mx-auto flex min-h-screen w-full items-center justify-center bg-zinc-800 text-white"
 >
   <!-- component -->
   <section>
     <form action="{% url 'login' %}" method="post" class="flex w-[30rem] flex-col space-y-10">
       {% csrf_token %}
-      <div class="text-center text-4xl font-medium">Logue-se</div>
+      <div class="text-center text-4xl font-medium">Entrar</div>
       {% if messages %}
         {% for message in messages %}
           <div class="toast border border-indigo-500 shadow-lg rounded-lg p-4 mb-4 flex items-start space-x-4">
@@ -62,7 +62,7 @@
       </div>
 
       <button
-        class="transform rounded-sm bg-indigo-600 py-2 font-bold duration-300 hover:bg-indigo-400"
+        class="transform rounded-md bg-indigo-600 py-2  font-bold duration-300 hover:bg-indigo-400"
       >
         Entrar
       </button>

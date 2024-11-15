@@ -3,82 +3,91 @@
 
 {% block body %}
 <main
-  class="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white"
+  class="mx-auto flex min-h-screen w-full items-center justify-center bg-zinc-800 text-white"
 >
-    <section class="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
-        <h1 class="text-xl font-bold text-white dark:text-white">Registre-se {{salvou}}</h1>
+    <section class="max-w-4xl p-6 mx-auto bg-zinc-700 rounded-md shadow-md dark:bg-zinc-700 mt-20">
+        <div class="flex items-center gap-3">
+            <a href="{% url 'login' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+                    class="fill-current text-white hover:text-indigo-400 transition-colors duration-300" 
+                    viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                </svg>
+            </a>
+            <h1 class="text-xl font-bold text-white dark:text-white">Registre-se {{salvou}}</h1>
+        </div>
         <form action="{% url 'register_student' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                 <div>
                     {% if u_form.email.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ u_form.email.auto_id }}">{{ u_form.email.label }}</label>
-                        {{ u_form.email|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ u_form.email|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in u_form.email.errors %}
                             <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ u_form.email.auto_id }}">{{ u_form.email.label }}</label>
-                        {{ u_form.email|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ u_form.email|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                     {%  endif%}
                 </div>
 
                 <div>
                     {% if u_form.password.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ u_form.password.auto_id }}">{{ u_form.password.label }}</label>
-                        {{ u_form.password|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ u_form.password|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in u_form.password.errors %}
                             <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ u_form.password.auto_id }}">{{ u_form.password.label }}</label>
-                        {{ u_form.password|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ u_form.password|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                     {%  endif%}
                 </div>
 
                 <div>
                     {% if s_form.name.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.name.auto_id }}">{{ s_form.name.label }}</label>
-                        {{ s_form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in s_form.name.errors %}
                             <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.name.auto_id }}">{{ s_form.name.label }}</label>
-                        {{ s_form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                     {%  endif%}
                 </div>
 
                 <div>
                     {% if s_form.student_id.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.student_id.auto_id }}">{{ s_form.student_id.label }}</label>
-                        {{ s_form.student_id|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.student_id|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in s_form.student_id.errors %}
                             <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.student_id.auto_id }}">{{ s_form.student_id.label }}</label>
-                        {{ s_form.student_id|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.student_id|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                     {%  endif%}
                 </div>
 
                 <div>
                     {% if s_form.course.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.course.auto_id }}">{{ s_form.course.label }}</label>
-                        {{ s_form.course|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.course|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in s_form.course.errors %}
                             <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.course.auto_id }}">{{ s_form.course.label }}</label>
-                        {{ s_form.course|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.course|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                     {%  endif%}
                 </div>
 
                 <div>
                     {% if s_form.photo.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.photo.auto_id }}">{{ s_form.photo.label }}</label>
-                        {{ s_form.photo|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {{ s_form.photo|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG (MAX. 800x400px).</p>
 
                         {% for error in s_form.photo.errors %}
@@ -86,15 +95,14 @@
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.photo.auto_id }}">{{ s_form.photo.label }}</label>
-                        {{ s_form.photo|add_class:"block w-full px-4 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG (MAX. 800x400px).</p>
+                        {{ s_form.photo|add_class:"block w-full px-4 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG.</p>
                     {% endif %}
                 </div>
             </div>
 
             <div class="flex justify-end mt-6 gap-4">
-                <a href="{% url 'login' %}" class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-600 rounded-md hover:bg-pink-400 focus:outline-none focus:bg-gray-600">Logar</a>
-                <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-indigo-600 rounded-md hover:bg-indigo-400 focus:outline-none focus:bg-gray-600">Cadastrar</button>
+                <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-600 rounded-md hover:bg-pink-500 focus:outline-none focus:bg-gray-600">Cadastrar</button>
             </div>
         </form>
     </section>
