@@ -13,9 +13,9 @@ def login(request):
             user = authenticate(request, email=form.cleaned_data['email'], password=form.cleaned_data['password'])
             if user:
                 loginUser(request, user)
-                if user.groups.filter(name='student').exists():
-                    return redirect('home_student')
-                return redirect('register_student')
+                if user.groups.filter(name='admin').exists():
+                    return redirect('home_admin')
+                return redirect('home_student')
         messages.error(request, 'Credenciais incorretas, tente novamente!')
 
     context = {

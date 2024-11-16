@@ -31,6 +31,8 @@ urlpatterns = [
     path('student/home/', students.home_student, name='home_student'),
     path('student/update/photo/', students.update_photo, name='update_photo'),
     path('student/profile/', students.profile, name='student_profile'),
+    # Admin
+    path('home/', views.home_admin, name='home_admin'),
     path('capture/', students.capture, name='capture'),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
