@@ -44,7 +44,6 @@ def update_photo(request):
     elif request.method == 'POST':
         form = UpdatePhotoForm(request.POST, request.FILES, instance=student)
         if form.is_valid():
-            print("Foto recebida:", request.FILES.get('photo'))
             form.save()
             return redirect('home_student')
     context = {
@@ -52,6 +51,15 @@ def update_photo(request):
         'form': form,
     }
     return render(request, 'update_photo.html', context)
+
+def profile(request):
+    student = Student.objects.filter(user_id=request.user).first()
+    form = ProfileForm(instance=student)
+    context = {
+        'title': 'Meu Perfil',
+        'form': form,
+    }
+    return render(request, 'profile.html', context)
 
 def capture(request):
     return HttpResponse(request.user.get_all_permissions())
