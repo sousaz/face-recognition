@@ -37,6 +37,22 @@ def home_student(request):
     }
     return render(request, 'home_student.html', context)
 
+def update_photo(request):
+    student = Student.objects.filter(user_id=request.user).first()
+    if request.method == 'GET':
+        form = UpdatePhotoForm(instance=student)
+    elif request.method == 'POST':
+        form = UpdatePhotoForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            print("Foto recebida:", request.FILES.get('photo'))
+            form.save()
+            return redirect('home_student')
+    context = {
+        'title': 'Atualizar foto',
+        'form': form,
+    }
+    return render(request, 'update_photo.html', context)
+
 def capture(request):
     return HttpResponse(request.user.get_all_permissions())
     if request.method == 'POST':

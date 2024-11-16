@@ -16,11 +16,11 @@
                     alt="Foto de Perfil" 
                     class="w-24 h-24 rounded-full mb-4"
                 >
-                <button 
+                <a href="{% url 'update_photo' %}" 
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mb-4"
                 >
                     Alterar Foto
-                </button>
+                </a>
                 <h2 class="text-xl font-semibold capitalize">{{ student.name }}</h2>
                 <p class="text-gray-600">{{ student.student_id }}</p>
                 <button 

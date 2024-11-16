@@ -1,6 +1,5 @@
 from django import forms
 from event_control.views import *
-from event_control.forms.user import UserForm
 from event_control.models import *
 
 class StudentForm(forms.ModelForm):
@@ -23,3 +22,15 @@ class StudentForm(forms.ModelForm):
         super(StudentForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({ 'placeholder': 'Digite seu nome' })
         self.fields['student_id'].widget.attrs.update({ 'placeholder': 'Digite a sua matricula' })
+
+class UpdatePhotoForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['photo']
+
+        labels = {
+            'photo': 'Nova selfie sua*'
+        }
+    
+    def clean_photo(self):
+        return self.cleaned_data.get('photo')
