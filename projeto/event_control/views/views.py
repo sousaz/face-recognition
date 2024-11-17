@@ -2,6 +2,12 @@ from django.shortcuts import render, HttpResponse
 import cv2
 import face_recognition as fr
 
+def home_admin(request):
+    return render(request, 'home_admin.html')
+
+def register_event(request):
+    return render(request, 'register_event.html')
+
 # Create your views here.
 def teste(request):
     if request.method == 'GET':
