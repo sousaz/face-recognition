@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from event_control.forms.student import *
 from event_control.forms.user import *
 import base64
+from django.contrib.auth.models import Group
+from django.http import HttpResponse
 
 def register(request):
     if request.method == 'GET':
@@ -14,6 +16,8 @@ def register(request):
             user = userForm.save(commit=False)
             user.set_password(user.password)
             user.save()
+            group = Group.objects.get(name="student")
+            user.groups.add(group)
             student = studentForm.save(commit=False)
             student.user_id = user
             student.save()
@@ -25,7 +29,40 @@ def register(request):
     }
     return render(request, 'register_student.html', context)
 
+def home_student(request):
+    student = Student.objects.filter(user_id=request.user).get()
+    context = {
+        'title': 'Home',
+        'student': student
+    }
+    return render(request, 'home_student.html', context)
+
+def update_photo(request):
+    student = Student.objects.filter(user_id=request.user).first()
+    if request.method == 'GET':
+        form = UpdatePhotoForm(instance=student)
+    elif request.method == 'POST':
+        form = UpdatePhotoForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('home_student')
+    context = {
+        'title': 'Atualizar foto',
+        'form': form,
+    }
+    return render(request, 'update_photo.html', context)
+
+def profile(request):
+    student = Student.objects.filter(user_id=request.user).first()
+    form = ProfileForm(instance=student)
+    context = {
+        'title': 'Meu Perfil',
+        'form': form,
+    }
+    return render(request, 'profile.html', context)
+
 def capture(request):
+    return HttpResponse(request.user.get_all_permissions())
     if request.method == 'POST':
         foto_data = request.POST.get('foto_data')
 

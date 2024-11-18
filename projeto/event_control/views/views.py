@@ -25,3 +25,6 @@ def teste(request):
         distancia = fr.face_distance([encode],encodeTest)
 
         return HttpResponse(comparacao,distancia)
+    
+def home_admin(request):
+    return render(request, 'home_admin.html')
