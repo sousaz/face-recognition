@@ -30,6 +30,16 @@ def register_event(request):
     }
     return render(request, 'register_event.html', context)
 
+def event_details(request, id):
+    event = Event.objects.filter(id=id).get()
+    if request.method == 'GET':
+        form = EventForm(instance=event)
+    context = {
+        'title': 'Detalhes do evento',
+        'form': form
+    }
+    return render(request, 'event_details.html', context)
+
 def teste(request):
     if request.method == 'GET':
         return render(request, 'teste.html')

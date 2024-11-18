@@ -13,23 +13,26 @@ class EventForm(forms.ModelForm):
             'register_type': 'Tipo de registro*',
         }
 
+        widgets = {
+            'description': forms.Textarea(attrs={'placeholder': 'De um breve descrição do evento', 'rows': 4, 'cols': 40}),
+        }
+
     start_date = forms.DateTimeField(
         required=True,
         label='Data de Início*',
         initial=datetime.now().strftime('%Y-%m-%dT%H:%M'),
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        widget=forms.DateTimeInput(format=('%Y-%m-%dT%H:%M'), attrs={'type': 'datetime-local'}),
     )
 
     end_date = forms.DateTimeField(
         label='Data de encerramento*',
         required=False,
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        widget=forms.DateTimeInput(format=('%Y-%m-%dT%H:%M'), attrs={'type': 'datetime-local'})
     )
 
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({ 'placeholder': 'Digite o nome do evento' })
-        self.fields['description'].widget.attrs.update({ 'placeholder': 'De um breve descrição do evento' })
 
 
 
