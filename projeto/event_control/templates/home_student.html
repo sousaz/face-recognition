@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="flex flex-col min-h-screen bg-gray-100">
+    {% include 'components/header.html' %}
+  
+    <!-- Corpo da Página -->
+    <main class="flex-grow container mx-auto p-6 self-center content-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+            <!-- Seção de Perfil -->
+            <section class="bg-white shadow-lg rounded-lg p-8 flex flex-col items-center text-center">
+                <!-- Foto do Perfil -->
+                <div class="relative">
+                    <img 
+                        src="{{ student.photo.url }}" 
+                        alt="Foto de Perfil" 
+                        class="w-32 h-32 rounded-full border-4 border-blue-600"
+                    >
+                    <a 
+                        href="{% url 'update_photo' %}"
+                        class="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg"
+                        title="Alterar Foto"
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Nome e Email -->
+                <h2 class="mt-4 text-2xl font-semibold text-gray-800">[{{ student.name }}]</h2>
+                <p class="text-gray-500 mt-2">{{ student.user_id.email }}</p>
+                
+                <!-- Botões de Ação -->
+                <div class="mt-8 flex space-x-4">
+                    <a 
+                        href="{% url 'update_photo' %}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md"
+                        >
+                        Alterar Foto
+                    </a>
+                    <a 
+                        href="{% url 'student_profile' %}"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-full shadow-md"
+                        >
+                        Ver Perfil
+                    </a>
+                </div>
+            </section>
+
+            <!-- Seção de Certificados -->
+            <section class="bg-white shadow rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Seus Certificados</h2>
+                <ul class="space-y-4">
+                <!-- Certificado 1 -->
+                <li class="flex justify-between items-center">
+                    <span class="text-gray-700">Certificado de Participação - Evento ABC</span>
+                    <button 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                    >
+                    Baixar
+                    </button>
+                </li>
+                <!-- Certificado 2 -->
+                <li class="flex justify-between items-center">
+                    <span class="text-gray-700">Certificado de Conclusão - Curso XYZ</span>
+                    <button 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                    >
+                    Baixar
+                    </button>
+                </li>
+                </ul>
+                <!-- Mensagem quando não houver certificados -->
+                <p class="mt-4 text-gray-500">Você ainda não possui certificados emitidos.</p>
+            </section>
+        </div>
+    </main>
+
+    {% include 'components/footer.html' %}
+  </div>
+  
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load form_extras %}
+
+{% block body %}
+<!-- page -->
+<main
+  class="mx-auto flex min-h-screen w-full items-center justify-center bg-zinc-800 text-white"
+>
+  <!-- component -->
+  <section>
+    <form action="{% url 'login' %}" method="post" class="flex w-[30rem] flex-col space-y-10">
+      {% csrf_token %}
+      <div class="text-center text-4xl font-medium">Entrar</div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="toast border border-indigo-500 shadow-lg rounded-lg p-4 mb-4 flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              {% if message.tags == 'success' %}
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              {% elif message.tags == 'error' %}
+                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              {% endif %}
+            </div>
+            <div class="flex-1">
+              <p class="text-lg font-medium {% if message.tags == 'success' %}text-green-700{% elif message.tags == 'error' %}text-pink-600{% endif %}">
+                  {{ message.message }}
+              </p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <button type="button" class="text-gray-400 hover:text-gray-600" aria-label="Close" onclick="this.closest('.toast').remove()">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div
+        class="w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-indigo-500"
+      >
+        {% if form.email.errors %}
+          {{ form.email|add_class:'w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none' }}
+          {% for error in form.email.errors %}
+            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+          {% endfor %}
+        {% else %}
+          {{ form.email|add_class:'w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none' }}
+        {% endif %}
+      </div>
+
+      <div
+        class="w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-indigo-500"
+      >
+      {% if form.password.errors %}
+        {{ form.password|add_class:'w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none' }}
+        {% for error in form.password.errors %}
+          <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+        {% endfor %}
+      {% else %}
+        {{ form.password|add_class:'w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none' }}
+      {% endif %}
+      </div>
+
+      <button
+        class="transform rounded-md bg-indigo-600 py-2  font-bold duration-300 hover:bg-indigo-400"
+      >
+        Entrar
+      </button>
+
+      <a
+        href="#"
+        class="transform text-center font-semibold text-gray-500 duration-300 hover:text-gray-300"
+        >Esqueceu a senha?</a
+      >
+
+      <p class="text-center text-lg">
+        Sem conta ainda?
+        <a
+          href="{% url 'register_student' %}"
+          class="font-medium text-indigo-500 underline-offset-4 hover:underline"
+          >Cadastre-se</a
+        >
+      </p>
+    </form>
+  </section>
+</main>
+{% endblock %}
