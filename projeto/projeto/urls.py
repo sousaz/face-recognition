@@ -31,8 +31,9 @@ urlpatterns = [
     path('student/home/', students.home_student, name='home_student'),
     path('student/update/photo/', students.update_photo, name='update_photo'),
     path('student/profile/', students.profile, name='student_profile'),
+    # Admin
     path("adm/home/", views.home_admin, name='adm_home'),
-    path("adm/register-event/", views.register_event, name='register_event'),
+    path("adm/register/event/", views.register_event, name='register_event'),
     path('capture/', students.capture, name='capture'),
     path("__reload__/", include("django_browser_reload.urls")),
     
