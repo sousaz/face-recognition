@@ -16,7 +16,7 @@ __pycache__/
 db.sqlite3
 
 # Diretório de arquivos estáticos coletados
-static/
+/static/
 
 # Diretório de arquivos de mídia (uploads)
 media/
