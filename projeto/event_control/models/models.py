@@ -86,7 +86,18 @@ class Event(models.Model):
     register_type = models.CharField(max_length=2, choices=REGISTER_TYPE_CHOICES, null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)
     end_date = models.DateTimeField(null=False, blank=False)
-    organizer = models.ForeignKey(Teacher, models.DO_NOTHING, null=False, blank=False)
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        if self.register_type == 'ee' and self.end_date == None:
+            errors['end_date'] = 'A data fim não pode ser nula em eventos do tipo Entrada e saida'
+        
+        if self.end_date != None and self.end_date < self.start_date and self.register_type == 'ee':
+            errors['start_date'] = 'A data inicial deve ser menor que a final'
+        if errors:
+            raise ValidationError(errors)
+
 
 class Register(models.Model):
     id = models.AutoField(primary_key=True)

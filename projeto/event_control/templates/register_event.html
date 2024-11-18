@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load form_extras %}
+
 {% block body %}
 <main class="mx-auto flex min-h-screen w-full items-center justify-center bg-zinc-800 text-white">
     <section class="max-w-4xl p-6 mx-auto bg-zinc-700 rounded-md shadow-md dark:bg-zinc-700 mt-20">
@@ -12,13 +14,68 @@
             </a>
             <h1 class="text-xl font-bold text-white dark:text-white">Cadastrar evento</h1>
         </div>
-        <form>
-            <div class="grid grid-cols-2 gap-6 mt-4">
+        <form action="{% url 'register_event' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
                 <div>
-                    <input type="text" placeholder="Nome do evento" class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                    {% if form.name.errors %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+                        {{ form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {% for error in form.name.errors %}
+                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+                        {{ form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                    {%  endif%}
                 </div>
                 <div>
-                    <input type="number" placeholder="Carga Horária total" class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                    {% if form.description.errors %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+                        {{ form.description|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {% for error in form.description.errors %}
+                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+                        {{ form.description|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                    {%  endif%}
+                </div>
+                <div>
+                    {% if form.register_type.errors %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.register_type.auto_id }}">{{ form.register_type.label }}</label>
+                        {{ form.register_type|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {% for error in form.register_type.errors %}
+                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.register_type.auto_id }}">{{ form.register_type.label }}</label>
+                        {{ form.register_type|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                    {%  endif%}
+                </div>
+                <div>
+                    {% if form.start_date.errors %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.start_date.auto_id }}">{{ form.start_date.label }}</label>
+                        {{ form.start_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {% for error in form.start_date.errors %}
+                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.start_date.auto_id }}">{{ form.start_date.label }}</label>
+                        {{ form.start_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                    {%  endif%}
+                </div>
+                <div>
+                    {% if form.end_date.errors %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.end_date.auto_id }}">{{ form.end_date.label }}</label>
+                        {{ form.end_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                        {% for error in form.end_date.errors %}
+                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.end_date.auto_id }}">{{ form.end_date.label }}</label>
+                        {{ form.end_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
+                    {%  endif%}
                 </div>
             </div>
                
