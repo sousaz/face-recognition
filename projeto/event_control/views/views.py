@@ -46,6 +46,9 @@ def event_details(request, id):
     }
     return render(request, 'event_details.html', context)
 
+def event_participants(request):    
+    return render(request, 'event_participants.html')
+
 def teste(request):
     if request.method == 'GET':
         return render(request, 'teste.html')
