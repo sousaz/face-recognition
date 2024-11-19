@@ -1,5 +1,4 @@
 from django import forms
-from event_control.views import *
 from event_control.models import *
 
 class StudentForm(forms.ModelForm):

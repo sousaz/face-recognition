@@ -14,7 +14,7 @@ def login(request):
             if user:
                 loginUser(request, user)
                 if user.groups.filter(name='admin').exists():
-                    return redirect('home_admin')
+                    return redirect('adm_home')
                 return redirect('home_student')
         messages.error(request, 'Credenciais incorretas, tente novamente!')
 

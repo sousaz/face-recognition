@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 import os
 import face_recognition as fr
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 # Create your models here.
 class CustomUserManager(BaseUserManager):
@@ -85,8 +86,27 @@ class Event(models.Model):
     description = models.CharField(max_length=255, null=False, blank=False)
     register_type = models.CharField(max_length=2, choices=REGISTER_TYPE_CHOICES, null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)
-    end_date = models.DateTimeField(null=False, blank=False)
-    organizer = models.ForeignKey(Teacher, models.DO_NOTHING, null=False, blank=False)
+    end_date = models.DateTimeField(null=True, blank=False)
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        if self.register_type == 'ee' and self.end_date == None:
+            errors['end_date'] = 'A data fim não pode ser nula em eventos do tipo Entrada e saida'
+        
+        if self.end_date != None and self.end_date < self.start_date and self.register_type == 'ee':
+            errors['start_date'] = 'A data inicial deve ser menor que a final'
+
+        if self.start_date <= timezone.now():
+            errors['start_date'] = 'A data inicial deve ser maior que a atual'
+
+        origin = Event.objects.filter(pk=self.pk).first()
+        if origin and origin.start_date <= timezone.now():
+            errors['start_date'] = 'Não pode ter alterações depois da data de inicio do evento'
+        
+        if errors:
+            raise ValidationError(errors)
+
 
 class Register(models.Model):
     id = models.AutoField(primary_key=True)

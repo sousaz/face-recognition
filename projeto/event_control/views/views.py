@@ -1,14 +1,51 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
+from event_control.forms.event import *
+from django.db.models import Q
 import cv2
 import face_recognition as fr
 
+# Create your views here.
 def home_admin(request):
-    return render(request, 'home_admin.html')
+    events = Event.objects.all()
+    if request.method == 'POST':
+        search = request.POST.get('search')
+        events = events.filter(Q(name__icontains=search) | Q(start_date__icontains=search))
+    context = {
+        'title': 'Home',
+        'events': events
+    }
+    return render(request, 'home_admin.html', context)
 
 def register_event(request):
-    return render(request, 'register_event.html')
+    if request.method == 'GET':
+        form = EventForm()
+    elif request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adm_home')
+    context = {
+        'title': 'Registro de eventos',
+        'form': form
+    }
+    return render(request, 'register_event.html', context)
 
-# Create your views here.
+def event_details(request, id):
+    event = Event.objects.filter(id=id).first()
+    if request.method == 'GET':
+        form = EventForm(instance=event)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('adm_home')
+    context = {
+        'title': 'Detalhes do evento',
+        'form': form,
+        'id': id
+    }
+    return render(request, 'event_details.html', context)
+
 def teste(request):
     if request.method == 'GET':
         return render(request, 'teste.html')
@@ -31,6 +68,3 @@ def teste(request):
         distancia = fr.face_distance([encode],encodeTest)
 
         return HttpResponse(comparacao,distancia)
-    
-def home_admin(request):
-    return render(request, 'home_admin.html')
