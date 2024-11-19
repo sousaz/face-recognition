@@ -31,12 +31,18 @@ def register_event(request):
     return render(request, 'register_event.html', context)
 
 def event_details(request, id):
-    event = Event.objects.filter(id=id).get()
+    event = Event.objects.filter(id=id).first()
     if request.method == 'GET':
         form = EventForm(instance=event)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('adm_home')
     context = {
         'title': 'Detalhes do evento',
-        'form': form
+        'form': form,
+        'id': id
     }
     return render(request, 'event_details.html', context)
 
