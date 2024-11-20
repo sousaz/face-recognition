@@ -4,6 +4,12 @@ from event_control.forms.user import *
 import base64
 from django.contrib.auth.models import Group
 from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib import colors
+from django.utils.timezone import localtime
+import os
+from django.conf import settings
 
 def register(request):
     if request.method == 'GET':
@@ -36,7 +42,7 @@ def home_student(request):
     for r in register:
         if r.computed:
             result.append(r)
-            break
+            continue
         if r.event_id.register_type == 'eo' and r.check_in >= r.event_id.start_date:
             end_of_day = r.event_id.start_date.replace(hour=23, minute=59, second=59)
             if r.check_in <= end_of_day:
@@ -77,6 +83,86 @@ def profile(request):
         'form': form,
     }
     return render(request, 'profile.html', context)
+
+def download_certificate(request, id):
+    register = Register.objects.filter(id=id).first()
+    largura, altura = landscape(A4)  # Alterar para folha deitada
+
+    # Criar o objeto de resposta HTTP
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="certificado.pdf"'
+
+    # Criar o canvas do certificado
+    p = canvas.Canvas(response, pagesize=landscape(A4))
+
+    # Desenhar uma borda ao redor do certificado
+    p.setStrokeColor(colors.HexColor("#00539C"))
+    p.setLineWidth(4)
+    p.rect(30, 30, largura - 60, altura - 60)
+
+    # Adicionar o cabeçalho do certificado
+    p.setFont("Helvetica-Bold", 28)
+    p.setFillColor(colors.HexColor("#00539C"))
+    p.drawCentredString(largura / 2, altura - 100, "CERTIFICADO DE CONCLUSÃO")
+
+    # Adicionar uma linha de descrição
+    p.setFont("Helvetica", 16)
+    p.setFillColor(colors.black)
+    p.drawCentredString(
+        largura / 2,
+        altura - 150,
+        "Declaro que o discente:",
+    )
+
+    # Adicionar o nome do participante em destaque
+    p.setFont("Helvetica-Bold", 22)
+    p.setFillColor(colors.HexColor("#00539C"))
+    p.drawCentredString(largura / 2, altura - 200, register.student_id.name)
+
+    p.setFont("Helvetica", 12)
+    p.setFillColor(colors.HexColor("#00539C"))
+    p.drawCentredString(largura / 2, altura - 220, f"Matriculado no curso de {register.student_id.course}")
+
+    # Adicionar a frase principal
+    p.setFont("Helvetica", 16)
+    p.setFillColor(colors.black)
+    texto_evento = f"Participou do evento {register.event_id.name}"
+
+    formatted_check_in = localtime(register.check_in)
+    formatted_check_out = localtime(register.check_out)
+    diference = (formatted_check_out - formatted_check_in)
+    total_seconds = diference.total_seconds()
+    hours = int(total_seconds // 3600)
+    minutes = int((total_seconds % 3600) // 60)
+    texto_carga_horaria = f"Carga horária: {hours} horas e {minutes} minutos."
+
+    # Adicionar a linha com o evento
+    p.drawCentredString(largura / 2, altura - 250, texto_evento)
+
+    # Adicionar a carga horária na linha de baixo
+    p.setFont("Helvetica", 14)
+    p.setFillColor(colors.black)
+    p.drawCentredString(largura / 2, altura - 270, texto_carga_horaria)
+
+    # Adicionar a data
+    p.setFont("Helvetica-Oblique", 12)
+    p.setFillColor(colors.black)
+    formatted_date = localtime(register.event_id.start_date).strftime('%d/%m/%Y %H:%M')
+    p.drawCentredString(largura / 2, altura - 310, f"Data do evento: {formatted_date}")
+
+    # Adicionar a assinatura (simulada)
+    signature_path = os.path.join(settings.MEDIA_ROOT, 'img', 'assinatura.png')
+    p.setFont("Helvetica", 12)
+    p.setFillColor(colors.black)
+    p.drawImage(signature_path, 140, 95, width=80, height=80, mask="auto")
+    p.drawString(100, 100, "_________________________")
+    p.drawString(100, 85, "Assinatura do Diretor")
+
+    # Finalizar o PDF
+    p.showPage()
+    p.save()
+
+    return response
 
 def capture(request):
     return HttpResponse(request.user.get_all_permissions())

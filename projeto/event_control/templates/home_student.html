@@ -50,7 +50,7 @@
             </section>
 
             <!-- Seção de Certificados -->
-            <section class=" bg-zinc-700 shadow rounded-lg p-6">
+            <section class=" bg-zinc-700 shadow rounded-lg p-6 max-h-[344px] overflow-auto">
                 <h2 class="text-xl text-white font-semibold mb-4">Seus Certificados</h2>
                 {% if register %}
                     <ul class="space-y-4">
@@ -59,11 +59,11 @@
                         <li class="flex justify-between items-center border-b-[1px]">
                             <span class="text-white self-end">Evento: {{ r.event_id.name }}</span>
                             <div>
-                                <button 
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                                >
-                                Baixar
-                                </button>
+                                <a href="{% url 'download_certificate' r.id %}"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded block"
+                                    >
+                                    Baixar
+                                </a>
                             </div>
                         </li>
                     {% endfor %}

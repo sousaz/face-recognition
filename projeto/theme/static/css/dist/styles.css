@@ -901,6 +901,10 @@ select {
   height: 170px;
 }
 
+.max-h-\[344px\] {
+  max-height: 344px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1046,12 +1050,20 @@ select {
   align-self: center;
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
 
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
 }
 
 .whitespace-nowrap {
