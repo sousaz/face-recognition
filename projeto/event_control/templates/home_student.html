@@ -52,28 +52,26 @@
             <!-- Seção de Certificados -->
             <section class=" bg-zinc-700 shadow rounded-lg p-6">
                 <h2 class="text-xl text-white font-semibold mb-4">Seus Certificados</h2>
-                <ul class="space-y-4">
-                <!-- Certificado 1 -->
-                <li class="flex justify-between items-center">
-                    <span class="text-white">Certificado de Participação - Evento ABC</span>
-                    <button 
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                    >
-                    Baixar
-                    </button>
-                </li>
-                <!-- Certificado 2 -->
-                <li class="flex justify-between items-center">
-                    <span class="text-white">Certificado de Conclusão - Curso XYZ</span>
-                    <button 
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                    >
-                    Baixar
-                    </button>
-                </li>
-                </ul>
-                <!-- Mensagem quando não houver certificados -->
-                <p class="mt-4 text-white">Você ainda não possui certificados emitidos.</p>
+                {% if register %}
+                    <ul class="space-y-4">
+                    <!-- Certificado 1 -->
+                    {% for r in register %}
+                        <li class="flex justify-between items-center border-b-[1px]">
+                            <span class="text-white self-end">Evento: {{ r.event_id.name }}</span>
+                            <div>
+                                <button 
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                                >
+                                Baixar
+                                </button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <!-- Mensagem quando não houver certificados -->
+                    <p class="mt-4 text-white">Você ainda não possui certificados emitidos.</p>
+                {% endif %}
             </section>
         </div>
     </main>

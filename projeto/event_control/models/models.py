@@ -112,9 +112,9 @@ class Register(models.Model):
     id = models.AutoField(primary_key=True)
     event_id = models.ForeignKey(Event, models.DO_NOTHING, null=False, blank=False)
     student_id = models.ForeignKey(Student, models.DO_NOTHING, null=False, blank=False)
-    date = models.DateField(auto_now_add=True, null=False, blank=False)
-    check_in = models.TimeField(auto_now_add=True, null=False, blank=False)
-    check_out = models.TimeField(auto_now_add=True, null=True, blank=False)
+    check_in = models.DateTimeField(null=False, blank=False)
+    check_out = models.DateTimeField(null=True, blank=False)
+    computed = models.BooleanField(null=False, blank=False, default=False)
 
 class Course(models.Model):
     id = models.AutoField(primary_key=True)

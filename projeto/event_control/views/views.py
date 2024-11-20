@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from event_control.forms.event import *
 from django.db.models import Q
+from django.contrib import messages
 import cv2
 import face_recognition as fr
 
@@ -42,12 +43,25 @@ def event_details(request, id):
     context = {
         'title': 'Detalhes do evento',
         'form': form,
-        'id': id
     }
     return render(request, 'event_details.html', context)
 
-def event_participants(request):    
-    return render(request, 'event_participants.html')
+def delete_event(request, id):
+    register = Register.objects.filter(event_id=id).exists()
+    if register:
+        messages.error(request, 'Não é possivel apagar eventos que ja teve algum registro')
+        return redirect('adm_home')
+    Event.objects.filter(id=id).delete()
+    messages.success(request, 'Evento apagado com sucesso')
+    return redirect('adm_home')
+
+def event_participants(request, id):
+    register = Register.objects.filter(event_id=id).all()
+    context = {
+        'title': 'Participantes',
+        'register': register
+    }
+    return render(request, 'event_participants.html', context)
 
 def teste(request):
     if request.method == 'GET':

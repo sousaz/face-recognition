@@ -14,7 +14,7 @@
             </a>
             <h1 class="text-xl font-bold text-white dark:text-white">Cadastrar evento</h1>
         </div>
-        <form action="{% url 'event_details' id %}" method="POST" enctype="multipart/form-data">
+        <form action="{% url 'event_details' form.instance.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
                 <div>
@@ -81,9 +81,8 @@
                
 
             <div class="flex justify-end mt-6 gap-4">
-                <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:bg-gray-600">Apagar evento</button>
-                <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-gray-600">Cadastrar</button>
-                
+                <a href="{% url 'delete_event' form.instance.id %}" class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:bg-gray-600">Apagar evento</a>
+                <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-gray-600">Salvar</button>
             </div>
         </form>
     </section>
