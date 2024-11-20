@@ -10,6 +10,12 @@ from reportlab.lib import colors
 from django.utils.timezone import localtime
 import os
 from django.conf import settings
+import face_recognition as fr
+import cv2
+from django.contrib import messages
+import numpy as np
+from io import BytesIO
+import json
 
 def register(request):
     if request.method == 'GET':
@@ -83,6 +89,33 @@ def profile(request):
         'form': form,
     }
     return render(request, 'profile.html', context)
+
+def capture(request):
+    if request.method == 'POST':
+        image_data = request.POST.get('face_image')
+
+        if image_data:
+            # Remover o prefixo 'data:image/png;base64,' da string base64
+            image_data = image_data.split(',')[1]
+
+            # Decodificar a string base64 para obter os dados binários da imagem
+            image_binary = base64.b64decode(image_data)
+
+            image_file = BytesIO(image_binary)
+
+            # try:
+            img = fr.load_image_file(image_file)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            encode = fr.face_encodings(img)[0]
+            students = Student.objects.all()
+            for s in students:
+                matches = fr.compare_faces([json.loads(s.photo_encoding)], encode)
+                if matches[0] == True:
+                    messages.success(request, f'Tudo certo, {s.name}')
+                    return render(request, 'capture.html')
+            messages.error(request, "Algo deu errado")
+
+    return render(request, 'capture.html')
 
 def download_certificate(request, id):
     register = Register.objects.filter(id=id).first()
@@ -163,23 +196,3 @@ def download_certificate(request, id):
     p.save()
 
     return response
-
-def capture(request):
-    return HttpResponse(request.user.get_all_permissions())
-    if request.method == 'POST':
-        foto_data = request.POST.get('foto_data')
-
-        if foto_data:
-            # Remover o prefixo "data:image/jpeg;base64,"
-            format, img_str = foto_data.split(';base64,') 
-            img_data = base64.b64decode(img_str)
-
-            # Criar a imagem e salvar no banco de dados
-            # image_file = ContentFile(img_data, 'captura.jpg')
-            # foto = Foto(imagem=image_file)
-            # foto.save()
-
-            # Redirecionar para a página de detalhes da foto
-            return redirect('teste')
-
-    return render(request, 'capture.html')

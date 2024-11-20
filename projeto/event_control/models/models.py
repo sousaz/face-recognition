@@ -4,6 +4,7 @@ import os
 import face_recognition as fr
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+import json
 
 # Create your models here.
 class CustomUserManager(BaseUserManager):
@@ -47,7 +48,7 @@ class Student(models.Model):
     course = models.CharField(max_length=255, null=False, blank=False)
     photo = models.ImageField(upload_to='photos')
     user_id = models.OneToOneField(User, models.DO_NOTHING, null=False)
-
+    photo_encoding = models.TextField(blank=False, null=True)
     def save(self, *args, **kwargs):
         if self.pk:
             original = Student.objects.get(pk=self.pk)
@@ -62,6 +63,7 @@ class Student(models.Model):
         try:
             img = fr.load_image_file(self.photo)
             faceloc = fr.face_locations(img)[0]
+            self.photo_encoding = json.dumps((fr.face_encodings(img)[0]).tolist())
         except Exception as e:
             errors['photo'] = 'Essa foto não ta muito legal tente tirar outra mais adequada'
         finally:
