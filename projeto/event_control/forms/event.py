@@ -11,10 +11,8 @@ class EventForm(forms.ModelForm):
             'name': 'Nome do evento*',
             'description': 'Descrição do evento*',
             'register_type': 'Tipo de registro*',
-        }
-
-        widgets = {
-            'description': forms.Textarea(attrs={'placeholder': 'De um breve descrição do evento', 'rows': 4, 'cols': 40}),
+            'min_hours': 'Horas minimas para o certificado*',
+            'workload': 'Carga horaria do evento*',
         }
 
     start_date = forms.DateTimeField(
@@ -28,6 +26,18 @@ class EventForm(forms.ModelForm):
         label='Data de encerramento*',
         required=False,
         widget=forms.DateTimeInput(format=('%Y-%m-%dT%H:%M'), attrs={'type': 'datetime-local'})
+    )
+
+    min_hours = forms.TimeField(
+        label='Horas minimas para o certificado*',
+        required=True,
+        widget=forms.TimeInput(format=('%H:%M'), attrs={'type': 'time'})
+    )
+
+    workload = forms.TimeField(
+        label='Carga horaria do evento*',
+        required=True,
+        widget=forms.TimeInput(format=('%H:%M'), attrs={'type': 'time'})
     )
 
     def __init__(self, *args, **kwargs):

@@ -937,6 +937,10 @@ select {
   width: 100%;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
 .min-w-full {
   min-width: 100%;
 }
@@ -947,6 +951,10 @@ select {
 
 .max-w-md {
   max-width: 28rem;
+}
+
+.max-w-6xl {
+  max-width: 72rem;
 }
 
 .flex-1 {
@@ -1017,6 +1025,10 @@ select {
   gap: 1.5rem;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -1064,10 +1076,6 @@ select {
 
 .overflow-x-auto {
   overflow-x: auto;
-}
-
-.overflow-y-scroll {
-  overflow-y: scroll;
 }
 
 .whitespace-nowrap {

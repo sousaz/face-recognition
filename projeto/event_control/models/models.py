@@ -70,13 +70,6 @@ class Student(models.Model):
             if errors:
                 raise ValidationError(errors)
 
-
-
-class Teacher(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=False, blank=False)
-    user_id = models.OneToOneField(User, models.DO_NOTHING, null=False, blank=False)
-
 REGISTER_TYPE_CHOICES = [
     ('eo', 'Somente entrada'),
     ('ee', 'Entrada e saida')
@@ -85,10 +78,11 @@ REGISTER_TYPE_CHOICES = [
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, blank=False)
-    description = models.CharField(max_length=255, null=False, blank=False)
     register_type = models.CharField(max_length=2, choices=REGISTER_TYPE_CHOICES, null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)
-    end_date = models.DateTimeField(null=True, blank=False)
+    end_date = models.DateTimeField(null=False, blank=False)
+    min_hours = models.TimeField(null=False, blank=False)
+    workload = models.TimeField(null=False, blank=False)
 
     def clean(self):
         super().clean()
@@ -124,3 +118,8 @@ class Course(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+class Certificate(models.Model):
+    id = models.AutoField(primary_key=True)
+    student_id = models.ForeignKey(Student, models.CASCADE, null=False, blank=False)
+    event_id = models.ForeignKey(Event, models.CASCADE, null=False, blank=False)

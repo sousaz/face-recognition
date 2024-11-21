@@ -63,6 +63,9 @@ def event_participants(request, id):
     }
     return render(request, 'event_participants.html', context)
 
+def generate_certificates(request, id):
+    return redirect('adm_home')
+
 def teste(request):
     if request.method == 'GET':
         return render(request, 'teste.html')
