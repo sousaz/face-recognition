@@ -64,6 +64,15 @@ def event_participants(request, id):
     return render(request, 'event_participants.html', context)
 
 def generate_certificates(request, id):
+    register = Register.objects.filter(event_id=id, computed=False).all()
+    if register[0].event_id.register_type == 'eo':
+        for r in register:
+            if r.check_in >= r.event_id.start_date and r.check_in <= r.event_id.end_date:
+                Certificate(student_id=r.student_id, event_id=r.event_id).save()
+            r.computed = True
+            r.save()
+        pass
+
     return redirect('adm_home')
 
 def teste(request):

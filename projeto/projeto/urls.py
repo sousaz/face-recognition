@@ -38,6 +38,7 @@ urlpatterns = [
     path('adm/event/details/<id>/', views.event_details, name='event_details'),
     path("adm/event/participants/<id>/", views.event_participants, name='event_participants'),
     path('adm/event/delete/<id>/', views.delete_event, name='delete_event'),
+    path('adm/generate/certificate/<id>/', views.generate_certificates, name="generate_certificates"),
     path('capture/', students.capture, name='capture'),
     path("__reload__/", include("django_browser_reload.urls")),
     
