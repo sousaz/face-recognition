@@ -7,6 +7,8 @@ import face_recognition as fr
 from io import BytesIO
 import json
 import base64
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your views here.
 def home_admin(request):
@@ -90,6 +92,7 @@ def generate_certificates(request, id):
 
 def capture(request, id):
     if request.method == 'POST':
+        date_now = timezone.localtime(timezone.now()) #+ timedelta(days=1)
         image_data = request.POST.get('face_image')
 
         if image_data:
@@ -99,19 +102,41 @@ def capture(request, id):
 
             image_file = BytesIO(image_binary)
 
-            # try:
-            img = fr.load_image_file(image_file)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            encode = fr.face_encodings(img)[0]
-            students = Student.objects.all()
-            for s in students:
-                matches = fr.compare_faces([json.loads(s.photo_encoding)], encode)
-                if matches[0] == True:
-                    messages.success(request, f'Tudo certo, {s.name}')
-                    return render(request, 'capture.html')
-            messages.error(request, "Algo deu errado")
+            try:
+                img = fr.load_image_file(image_file)
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                encode = fr.face_encodings(img)[0]
+                students = Student.objects.all()
+                for s in students:
+                    matches = fr.compare_faces([json.loads(s.photo_encoding)], encode)
+                    if matches[0] == True:
+                        presence_register(s, id, date_now)
+                        messages.success(request, f'Tudo certo, {s.name}')
+                        return render(request, 'capture.html')
+                messages.error(request, "Algo deu errado")
+            except:
+                pass
 
     return render(request, 'capture.html')
+
+def presence_register(student, event_id, date):
+    event = Event.objects.filter(id=event_id).first()
+    register = Register.objects.filter(event_id=event_id, student_id=student).all()
+    if event.register_type == 'eo':
+        if not register.filter(check_in__date=date).exists():
+            if date >= event.start_date and date <= event.end_date:
+                Register(event_id=event, student_id=student, check_in=date, check_out=None).save()
+    else:
+        if not register.filter(check_in__date=date, check_out__date=date).exists():
+            if date >= event.start_date and date <= event.end_date:
+                r = register.filter(check_in__date=date, check_out=None).first()
+                if r:
+                    r.check_out = date
+                    r.save()
+                else:
+                    Register(event_id=event, student_id=student, check_in=date, check_out=None).save()
+
+
 
 def teste(request):
     if request.method == 'GET':
