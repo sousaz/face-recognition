@@ -70,7 +70,7 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 def download_certificate(request, id):
-    register = Register.objects.filter(id=id).first()
+    certificate = Certificate.objects.filter(id=id).first()
     largura, altura = landscape(A4)  # Alterar para folha deitada
 
     # Criar o objeto de resposta HTTP
@@ -102,24 +102,18 @@ def download_certificate(request, id):
     # Adicionar o nome do participante em destaque
     p.setFont("Helvetica-Bold", 22)
     p.setFillColor(colors.HexColor("#00539C"))
-    p.drawCentredString(largura / 2, altura - 200, register.student_id.name)
+    p.drawCentredString(largura / 2, altura - 200, certificate.student_id.name)
 
     p.setFont("Helvetica", 12)
     p.setFillColor(colors.HexColor("#00539C"))
-    p.drawCentredString(largura / 2, altura - 220, f"Matriculado no curso de {register.student_id.course}")
+    p.drawCentredString(largura / 2, altura - 220, f"Matriculado no curso de {certificate.student_id.course}")
 
     # Adicionar a frase principal
     p.setFont("Helvetica", 16)
     p.setFillColor(colors.black)
-    texto_evento = f"Participou do evento {register.event_id.name}"
+    texto_evento = f"Participou do evento {certificate.event_id.name}"
 
-    formatted_check_in = localtime(register.check_in)
-    formatted_check_out = localtime(register.check_out)
-    diference = (formatted_check_out - formatted_check_in)
-    total_seconds = diference.total_seconds()
-    hours = int(total_seconds // 3600)
-    minutes = int((total_seconds % 3600) // 60)
-    texto_carga_horaria = f"Carga horária: {hours} horas e {minutes} minutos."
+    texto_carga_horaria = f"Carga horária: {certificate.event_id.workload.hour} horas e {certificate.event_id.workload.minute} minutos."
 
     # Adicionar a linha com o evento
     p.drawCentredString(largura / 2, altura - 250, texto_evento)
@@ -132,11 +126,12 @@ def download_certificate(request, id):
     # Adicionar a data
     p.setFont("Helvetica-Oblique", 12)
     p.setFillColor(colors.black)
-    formatted_date = localtime(register.event_id.start_date).strftime('%d/%m/%Y %H:%M')
+    formatted_date = localtime(certificate.event_id.start_date).strftime('%d/%m/%Y %H:%M')
     p.drawCentredString(largura / 2, altura - 310, f"Data do evento: {formatted_date}")
 
     # Adicionar a assinatura (simulada)
-    signature_path = os.path.join(settings.MEDIA_ROOT, 'img', 'assinatura.png')
+    signature = Signature.objects.first()
+    signature_path = os.path.join(settings.MEDIA_ROOT, signature.signature_image.name)
     p.setFont("Helvetica", 12)
     p.setFillColor(colors.black)
     p.drawImage(signature_path, 140, 95, width=80, height=80, mask="auto")

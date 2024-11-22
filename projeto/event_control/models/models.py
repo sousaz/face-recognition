@@ -123,3 +123,7 @@ class Certificate(models.Model):
     id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey(Student, models.CASCADE, null=False, blank=False)
     event_id = models.ForeignKey(Event, models.CASCADE, null=False, blank=False)
+
+class Signature(models.Model):
+    id = models.AutoField(primary_key=True)
+    signature_image = models.ImageField(upload_to='signature')
