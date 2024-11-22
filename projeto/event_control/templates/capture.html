@@ -47,7 +47,7 @@
         {% endfor %}
     {% endif %}
     <video id="video" width="720" height="560" autoplay muted></video>
-    <form id="faceForm" method="POST" enctype="multipart/form-data" action="{% url 'capture' %}">
+    <form id="faceForm" method="POST" enctype="multipart/form-data" action="{% url 'capture' request.resolver_match.kwargs.id %}">
         {% csrf_token %}
         <input type="hidden" name="face_image" id="face_image">
     </form>

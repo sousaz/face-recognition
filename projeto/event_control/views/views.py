@@ -4,7 +4,9 @@ from django.db.models import Q
 from django.contrib import messages
 import cv2
 import face_recognition as fr
-from datetime import date, datetime
+from io import BytesIO
+import json
+import base64
 
 # Create your views here.
 def home_admin(request):
@@ -85,6 +87,31 @@ def generate_certificates(request, id):
 
 
     return redirect('adm_home')
+
+def capture(request, id):
+    if request.method == 'POST':
+        image_data = request.POST.get('face_image')
+
+        if image_data:
+            image_data = image_data.split(',')[1]
+
+            image_binary = base64.b64decode(image_data)
+
+            image_file = BytesIO(image_binary)
+
+            # try:
+            img = fr.load_image_file(image_file)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            encode = fr.face_encodings(img)[0]
+            students = Student.objects.all()
+            for s in students:
+                matches = fr.compare_faces([json.loads(s.photo_encoding)], encode)
+                if matches[0] == True:
+                    messages.success(request, f'Tudo certo, {s.name}')
+                    return render(request, 'capture.html')
+            messages.error(request, "Algo deu errado")
+
+    return render(request, 'capture.html')
 
 def teste(request):
     if request.method == 'GET':
