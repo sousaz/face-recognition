@@ -113,7 +113,7 @@ def download_certificate(request, id):
     p.setFillColor(colors.black)
     texto_evento = f"Participou do evento {certificate.event_id.name}"
 
-    texto_carga_horaria = f"Carga horária: {certificate.event_id.workload.hour} horas e {certificate.event_id.workload.minute} minutos."
+    texto_carga_horaria = f"Carga horária: {certificate.workload.hour} horas e {certificate.workload.minute} minutos."
 
     # Adicionar a linha com o evento
     p.drawCentredString(largura / 2, altura - 250, texto_evento)

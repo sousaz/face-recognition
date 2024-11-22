@@ -9,7 +9,7 @@ from io import BytesIO
 import json
 import base64
 from django.utils import timezone
-from datetime import timedelta
+from datetime import timedelta, time
 from collections import defaultdict
 
 # Create your views here.
@@ -70,7 +70,6 @@ def event_participants(request, id):
     }
     return render(request, 'event_participants.html', context)
 
-# TODO: tem que arrumar essa bomba
 def generate_certificates(request, id):
     register = Register.objects.filter(event_id=id, computed=False).all()
     if register:
@@ -80,20 +79,32 @@ def generate_certificates(request, id):
 
         if register[0].event_id.register_type == 'eo':
             for student_id, student_record in students_registers.items():
+                total_days = 0
+                total_workload_hours = 0
+                total_workload_minutes = 0
                 for r in student_record:
                     if r.check_in >= r.event_id.start_date and r.check_in <= r.event_id.end_date:
-                        Certificate(student_id=r.student_id, event_id=r.event_id).save()
+                        total_days += 1
+                        total_workload_hours += r.event_id.workload.hour
+                        total_workload_minutes += r.event_id.workload.minute
                     r.computed = True
                     r.save()
+                if total_days >= r.event_id.min_attendance:
+                    Certificate(student_id=student_id, event_id=r.event_id, workload=time(hour=total_workload_hours, minute=total_workload_minutes)).save()
         else:
-            for r in register:
-                if r.check_in >= r.event_id.start_date and r.check_out <= r.event_id.end_date:
-                    difference_in_hours = (r.check_out - r.check_in).total_seconds() / 3600
-                    min_hours_in_float = r.event_id.min_hours.hour + r.event_id.min_hours.minute / 60
-                    if difference_in_hours >= min_hours_in_float:
-                        Certificate(student_id=r.student_id, event_id=r.event_id).save()
-                r.computed = True
-                r.save()
+            for student_id, student_record in students_registers.items():
+                total_workload_hours = 0
+                total_workload_minutes = 0
+                for r in student_record:
+                    if r.check_in >= r.event_id.start_date and r.check_out <= r.event_id.end_date:
+                        difference_in_hours = (r.check_out - r.check_in).total_seconds() / 3600
+                        min_hours_in_float = r.event_id.min_hours.hour + r.event_id.min_hours.minute / 60
+                        if difference_in_hours >= min_hours_in_float:
+                            total_workload_hours += r.event_id.workload.hour
+                            total_workload_minutes += r.event_id.workload.minute
+                    r.computed = True
+                    r.save()
+                Certificate(student_id=student_id, event_id=r.event_id, workload=time(hour=total_workload_hours, minute=total_workload_minutes)).save()
 
 
     return redirect('adm_home')
