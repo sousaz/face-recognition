@@ -815,10 +815,6 @@ select {
   right: 0px;
 }
 
-.col-span-2 {
-  grid-column: span 2 / span 2;
-}
-
 .-my-2 {
   margin-top: -0.5rem;
   margin-bottom: -0.5rem;
@@ -913,6 +909,10 @@ select {
   min-height: 100vh;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
 .w-32 {
   width: 8rem;
 }
@@ -937,10 +937,6 @@ select {
   width: 100%;
 }
 
-.w-1\/2 {
-  width: 50%;
-}
-
 .min-w-full {
   min-width: 100%;
 }
@@ -951,10 +947,6 @@ select {
 
 .max-w-md {
   max-width: 28rem;
-}
-
-.max-w-6xl {
-  max-width: 72rem;
 }
 
 .flex-1 {
@@ -1013,6 +1005,10 @@ select {
   justify-content: space-between;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .gap-3 {
   gap: 0.75rem;
 }
@@ -1023,10 +1019,6 @@ select {
 
 .gap-6 {
   gap: 1.5rem;
-}
-
-.gap-2 {
-  gap: 0.5rem;
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {

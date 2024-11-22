@@ -43,26 +43,12 @@ def register(request):
 
 def home_student(request):
     student = Student.objects.filter(user_id=request.user).get()
-    register = Register.objects.filter(student_id=student).all()
-    result = []
-    for r in register:
-        if r.computed:
-            result.append(r)
-            continue
-        if r.event_id.register_type == 'eo' and r.check_in >= r.event_id.start_date:
-            end_of_day = r.event_id.start_date.replace(hour=23, minute=59, second=59)
-            if r.check_in <= end_of_day:
-                result.append(r)
-        if r.event_id.register_type == 'ee' and r.check_in and r.check_out:
-            if r.check_in >= r.event_id.start_date and r.check_out <= r.event_id.end_date:
-                result.append(r)
-        r.computed = True
-        r.save()
+    certificates = Certificate.objects.filter(student_id=student).all()
 
     context = {
         'title': 'Home',
         'student': student,
-        'register': result
+        'certificates': certificates
     }
     return render(request, 'home_student.html', context)
 

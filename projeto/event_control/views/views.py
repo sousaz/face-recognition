@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.contrib import messages
 import cv2
 import face_recognition as fr
+from datetime import date, datetime
 
 # Create your views here.
 def home_admin(request):
@@ -65,13 +66,23 @@ def event_participants(request, id):
 
 def generate_certificates(request, id):
     register = Register.objects.filter(event_id=id, computed=False).all()
-    if register[0].event_id.register_type == 'eo':
-        for r in register:
-            if r.check_in >= r.event_id.start_date and r.check_in <= r.event_id.end_date:
-                Certificate(student_id=r.student_id, event_id=r.event_id).save()
-            r.computed = True
-            r.save()
-        pass
+    if register:
+        if register[0].event_id.register_type == 'eo':
+            for r in register:
+                if r.check_in >= r.event_id.start_date and r.check_in <= r.event_id.end_date:
+                    Certificate(student_id=r.student_id, event_id=r.event_id).save()
+                r.computed = True
+                r.save()
+        else:
+            for r in register:
+                if r.check_in >= r.event_id.start_date and r.check_out <= r.event_id.end_date:
+                    difference_in_hours = (r.check_out - r.check_in).total_seconds() / 3600
+                    min_hours_in_float = r.event_id.min_hours.hour + r.event_id.min_hours.minute / 60
+                    if difference_in_hours >= min_hours_in_float:
+                        Certificate(student_id=r.student_id, event_id=r.event_id).save()
+                r.computed = True
+                r.save()
+
 
     return redirect('adm_home')
 
