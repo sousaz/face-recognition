@@ -22,7 +22,8 @@
                         <label class="text-white dark:text-gray-200" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
                         {{ form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in form.name.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
@@ -34,7 +35,8 @@
                         <label class="text-white dark:text-gray-200" for="{{ form.register_type.auto_id }}">{{ form.register_type.label }}</label>
                         {{ form.register_type|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in form.register_type.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.register_type.auto_id }}">{{ form.register_type.label }}</label>
@@ -46,7 +48,8 @@
                         <label class="text-white dark:text-gray-200" for="{{ form.start_date.auto_id }}">{{ form.start_date.label }}</label>
                         {{ form.start_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in form.start_date.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.start_date.auto_id }}">{{ form.start_date.label }}</label>
@@ -58,23 +61,38 @@
                         <label class="text-white dark:text-gray-200" for="{{ form.end_date.auto_id }}">{{ form.end_date.label }}</label>
                         {{ form.end_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in form.end_date.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.end_date.auto_id }}">{{ form.end_date.label }}</label>
                         {{ form.end_date|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                     {%  endif%}
                 </div>
-                <div class="">
+                <div id="min-hours-container">
                     {% if form.min_hours.errors %}
                         <label class="text-white dark:text-gray-200" for="{{ form.min_hours.auto_id }}">{{ form.min_hours.label }}</label>
                         {{ form.min_hours|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring resize-none" }}
                         {% for error in form.min_hours.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.min_hours.auto_id }}">{{ form.min_hours.label }}</label>
                         {{ form.min_hours|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring resize-none" }}
+                    {%  endif%}
+                </div>
+                <div id="min-attendance-container" class="hidden">
+                    {% if form.min_attendance.errors %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.min_attendance.auto_id }}">{{ form.min_attendance.label }}</label>
+                        {{ form.min_attendance|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring resize-none" }}
+                        {% for error in form.min_attendance.errors %}
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <label class="text-white dark:text-gray-200" for="{{ form.min_attendance.auto_id }}">{{ form.min_attendance.label }}</label>
+                        {{ form.min_attendance|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring resize-none" }}
                     {%  endif%}
                 </div>
                 <div class="">
@@ -82,7 +100,8 @@
                         <label class="text-white dark:text-gray-200" for="{{ form.workload.auto_id }}">{{ form.workload.label }}</label>
                         {{ form.workload|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring resize-none" }}
                         {% for error in form.workload.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-5
+                            00 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.workload.auto_id }}">{{ form.workload.label }}</label>
@@ -98,4 +117,27 @@
         </form>
     </section>
 </main>
+{%endblock%}
+
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const min_hours = document.getElementById("min-hours-container")
+        const min_attendance = document.getElementById("min-attendance-container")
+        const select = document.getElementById("id_register_type")
+
+        const updateVisibility = () => {
+            if (select.value === 'eo') {
+            min_hours.classList.add("hidden");
+            min_attendance.classList.remove("hidden");
+            } else if (select.value === 'ee') {
+                min_hours.classList.remove("hidden");
+                min_attendance.classList.add("hidden");
+            }
+        }
+
+        select.addEventListener('change', updateVisibility)
+    })
+
+</script>
 {%endblock%}

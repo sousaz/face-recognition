@@ -32,7 +32,7 @@
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG (MAX. 800x400px).</p>
 
                         {% for error in form.photo.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ form.photo.auto_id }}">{{ form.photo.label }}</label>

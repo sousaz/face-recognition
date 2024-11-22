@@ -24,7 +24,7 @@
                         <label class="text-white dark:text-gray-200" for="{{ u_form.email.auto_id }}">{{ u_form.email.label }}</label>
                         {{ u_form.email|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in u_form.email.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ u_form.email.auto_id }}">{{ u_form.email.label }}</label>
@@ -37,7 +37,7 @@
                         <label class="text-white dark:text-gray-200" for="{{ u_form.password.auto_id }}">{{ u_form.password.label }}</label>
                         {{ u_form.password|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in u_form.password.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ u_form.password.auto_id }}">{{ u_form.password.label }}</label>
@@ -50,7 +50,7 @@
                         <label class="text-white dark:text-gray-200" for="{{ s_form.name.auto_id }}">{{ s_form.name.label }}</label>
                         {{ s_form.name|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in s_form.name.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.name.auto_id }}">{{ s_form.name.label }}</label>
@@ -63,7 +63,7 @@
                         <label class="text-white dark:text-gray-200" for="{{ s_form.student_id.auto_id }}">{{ s_form.student_id.label }}</label>
                         {{ s_form.student_id|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in s_form.student_id.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.student_id.auto_id }}">{{ s_form.student_id.label }}</label>
@@ -76,7 +76,7 @@
                         <label class="text-white dark:text-gray-200" for="{{ s_form.course.auto_id }}">{{ s_form.course.label }}</label>
                         {{ s_form.course|add_class:"block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-zinc-700 dark:text-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" }}
                         {% for error in s_form.course.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.course.auto_id }}">{{ s_form.course.label }}</label>
@@ -91,7 +91,7 @@
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG (MAX. 800x400px).</p>
 
                         {% for error in s_form.photo.errors %}
-                            <span class="block text-red-700 px-2 py-3 sm:inline">{{ error }}</span>
+                            <span class="block text-red-500 px-2 py-3 sm:inline">{{ error }}</span>
                         {% endfor %}
                     {% else %}
                         <label class="text-white dark:text-gray-200" for="{{ s_form.photo.auto_id }}">{{ s_form.photo.label }}</label>
