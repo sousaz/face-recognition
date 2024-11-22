@@ -96,6 +96,11 @@ class Event(models.Model):
         if self.start_date <= timezone.now():
             errors['start_date'] = 'A data inicial deve ser maior que a atual'
 
+        difference_in_hours = (self.end_date - self.start_date).total_seconds() / 3600
+        min_hours_in_float = self.min_hours.hour + self.min_hours.minute / 60
+        if difference_in_hours <= min_hours_in_float:
+            errors['min_hours'] = 'As horas minimas precisar ser menor que que a duração do evento'
+
         origin = Event.objects.filter(pk=self.pk).first()
         if origin and origin.start_date <= timezone.now():
             errors['start_date'] = 'Não pode ter alterações depois da data de inicio do evento'
