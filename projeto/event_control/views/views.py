@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
 from event_control.forms.event import *
 from django.db.models import Q
 from django.contrib import messages
@@ -9,6 +10,7 @@ import json
 import base64
 from django.utils import timezone
 from datetime import timedelta
+from collections import defaultdict
 
 # Create your views here.
 def home_admin(request):
@@ -68,15 +70,21 @@ def event_participants(request, id):
     }
     return render(request, 'event_participants.html', context)
 
+# TODO: tem que arrumar essa bomba
 def generate_certificates(request, id):
     register = Register.objects.filter(event_id=id, computed=False).all()
     if register:
+        students_registers = defaultdict(list)
+        for r in register:
+            students_registers[r.student_id].append(r)
+
         if register[0].event_id.register_type == 'eo':
-            for r in register:
-                if r.check_in >= r.event_id.start_date and r.check_in <= r.event_id.end_date:
-                    Certificate(student_id=r.student_id, event_id=r.event_id).save()
-                r.computed = True
-                r.save()
+            for student_id, student_record in students_registers.items():
+                for r in student_record:
+                    if r.check_in >= r.event_id.start_date and r.check_in <= r.event_id.end_date:
+                        Certificate(student_id=r.student_id, event_id=r.event_id).save()
+                    r.computed = True
+                    r.save()
         else:
             for r in register:
                 if r.check_in >= r.event_id.start_date and r.check_out <= r.event_id.end_date:

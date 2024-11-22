@@ -81,7 +81,8 @@ class Event(models.Model):
     register_type = models.CharField(max_length=2, choices=REGISTER_TYPE_CHOICES, null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)
     end_date = models.DateTimeField(null=False, blank=False)
-    min_hours = models.TimeField(null=False, blank=False)
+    min_hours = models.TimeField(null=True, blank=False)
+    min_attendance = models.IntegerField(null=True, blank=False)
     workload = models.TimeField(null=False, blank=False)
 
     def clean(self):
@@ -98,8 +99,14 @@ class Event(models.Model):
 
         difference_in_hours = (self.end_date - self.start_date).total_seconds() / 3600
         min_hours_in_float = self.min_hours.hour + self.min_hours.minute / 60
-        if difference_in_hours <= min_hours_in_float:
+        if self.register_type == 'ee' and difference_in_hours <= min_hours_in_float:
             errors['min_hours'] = 'As horas minimas precisar ser menor que que a duração do evento'
+
+        if self.register_type == 'ee' and self.min_hours == None:
+            errors['register_type'] = 'As horas minimas não pode ser nulo em registro do tipo entrada e saida'
+
+        if self.register_type == 'eo' and self.min_attendance == None:
+            errors['register_type'] = 'As presenças minimas não pode ser nulo em registro do tipo só entrada'
 
         origin = Event.objects.filter(pk=self.pk).first()
         if origin and origin.start_date <= timezone.now():

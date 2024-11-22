@@ -13,6 +13,7 @@ class EventForm(forms.ModelForm):
             'register_type': 'Tipo de registro*',
             'min_hours': 'Horas minimas para o certificado*',
             'workload': 'Carga horaria do evento*',
+            'min_attendance': 'Presenças minimas para o certificado*'
         }
 
     start_date = forms.DateTimeField(
@@ -25,12 +26,13 @@ class EventForm(forms.ModelForm):
     end_date = forms.DateTimeField(
         label='Data de encerramento*',
         required=False,
+        initial=datetime.now().strftime('%Y-%m-%dT%H:%M'),
         widget=forms.DateTimeInput(format=('%Y-%m-%dT%H:%M'), attrs={'type': 'datetime-local'})
     )
 
     min_hours = forms.TimeField(
         label='Horas minimas para o certificado*',
-        required=True,
+        required=False,
         widget=forms.TimeInput(format=('%H:%M'), attrs={'type': 'time'})
     )
 
@@ -43,6 +45,8 @@ class EventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({ 'placeholder': 'Digite o nome do evento' })
+        self.fields['min_attendance'].widget.attrs.update({ 'placeholder': 'Digite o número mínimo de presenças' })
+        self.fields['min_attendance'].required = False
 
 
 
