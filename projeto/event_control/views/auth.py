@@ -6,6 +6,10 @@ from django.contrib import messages
 def login(request):
     if request.method == 'GET':
         form = UserAuthForm()
+        if request.user.is_authenticated:
+            if request.user.groups.filter(name='admin').exists():
+                return redirect('adm_home')
+            return redirect('home_student')
     elif request.method == 'POST':
         form = UserAuthForm(request.POST)
 
