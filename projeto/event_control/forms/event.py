@@ -11,8 +11,8 @@ class EventForm(forms.ModelForm):
             'name': 'Nome do evento*',
             'description': 'Descrição do evento*',
             'register_type': 'Tipo de registro*',
-            'min_hours': 'Horas minimas para o certificado*',
-            'workload': 'Carga horaria do evento*',
+            'min_hours': 'Horas minimas diária para o certificado*',
+            'workload': 'Carga horaria diária do evento*',
             'min_attendance': 'Presenças minimas para o certificado*'
         }
 
@@ -31,13 +31,13 @@ class EventForm(forms.ModelForm):
     )
 
     min_hours = forms.TimeField(
-        label='Horas minimas para o certificado*',
+        label='Horas minimas diária para o certificado*',
         required=False,
         widget=forms.TimeInput(format=('%H:%M'), attrs={'type': 'time'})
     )
 
     workload = forms.TimeField(
-        label='Carga horaria do evento*',
+        label='Carga horaria diária do evento*',
         required=True,
         widget=forms.TimeInput(format=('%H:%M'), attrs={'type': 'time'})
     )

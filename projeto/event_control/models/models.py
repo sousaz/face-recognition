@@ -101,7 +101,7 @@ class Event(models.Model):
             difference_in_hours = (self.end_date - self.start_date).total_seconds() / 3600
             min_hours_in_float = self.min_hours.hour + self.min_hours.minute / 60
             if self.register_type == 'ee' and difference_in_hours <= min_hours_in_float:
-                errors['min_hours'] = 'As horas minimas precisar ser menor que que a duração do evento'
+                errors['min_hours'] = 'As horas minimas precisa ser menor que a duração do evento'
 
         if self.register_type == 'ee' and self.min_hours == None:
             errors['register_type'] = 'As horas minimas não pode ser nulo em registro do tipo entrada e saida'
