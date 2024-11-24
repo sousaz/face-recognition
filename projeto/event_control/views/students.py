@@ -9,6 +9,10 @@ from reportlab.lib import colors
 from django.utils.timezone import localtime
 import os
 from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test, login_required
+
+def belongs_to_the_group(user):
+    return user.groups.filter(name='student').exists()
 
 def register(request):
     if request.method == 'GET':
@@ -34,6 +38,8 @@ def register(request):
     }
     return render(request, 'register_student.html', context)
 
+@login_required
+@user_passes_test(belongs_to_the_group)
 def home_student(request):
     student = Student.objects.filter(user_id=request.user).get()
     certificates = Certificate.objects.filter(student_id=student).all()
@@ -45,6 +51,8 @@ def home_student(request):
     }
     return render(request, 'home_student.html', context)
 
+@login_required
+@user_passes_test(belongs_to_the_group)
 def update_photo(request):
     student = Student.objects.filter(user_id=request.user).first()
     if request.method == 'GET':
@@ -60,6 +68,8 @@ def update_photo(request):
     }
     return render(request, 'update_photo.html', context)
 
+@login_required
+@user_passes_test(belongs_to_the_group)
 def profile(request):
     student = Student.objects.filter(user_id=request.user).first()
     form = ProfileForm(instance=student)
@@ -69,6 +79,8 @@ def profile(request):
     }
     return render(request, 'profile.html', context)
 
+@login_required
+@user_passes_test(belongs_to_the_group)
 def download_certificate(request, id):
     certificate = Certificate.objects.filter(id=id).first()
     largura, altura = landscape(A4)  # Alterar para folha deitada
