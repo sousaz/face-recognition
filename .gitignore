@@ -17,6 +17,7 @@ db.sqlite3
 
 # Diretório de arquivos estáticos coletados
 /static/
+staticfiles/
 
 # Diretório de arquivos de mídia (uploads)
 media/
